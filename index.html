@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Demo: The Instantaneous Power of AI Security</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Poppins:wght@600;700&display=swap');
+
+        :root {
+            --primary-color: #00A8FF; /* Bright Blue */
+            --success-color: #00C49A; /* Green */
+            --danger-color: #FF5A5F;   /* Red */
+            --dark-bg: #0a0f18;
+            --mid-bg: #101827;
+            --light-text: #E0E0E0;
+            --dark-text: #8899A9;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            background-color: rgba(10, 15, 24, 0.8);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--mid-bg);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+        .logo span { color: var(--primary-color); }
+
+        .main-nav a {
+            color: var(--light-text);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #007bbd;
+            transform: translateY(-2px);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5em;
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 .highlight {
+            color: var(--primary-color);
+            display: inline-block;
+        }
+
+        .hero p.subtitle {
+            font-size: 1.2em;
+            color: var(--dark-text);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        /* --- The Live Demo Visual --- */
+        .live-demo-container {
+            margin-top: 60px;
+            background: linear-gradient(145deg, var(--mid-bg), #1a2436);
+            border: 1px solid #2a384a;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .panels-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .panel {
+            background-color: var(--dark-bg);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #2a384a;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .panel h3 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-text);
+            margin-bottom: 20px;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Panel 1: Traditional Log */
+        .panel-1 .log-output {
+            background-color: #000;
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: var(--success-color);
+            padding: 15px;
+            overflow: hidden;
+            text-align: left;
+            box-sizing: border-box; /* Ensures padding is included in height/width */
+        }
+        .panel-1 .log-output span {
+            display: block;
+            opacity: 0.7;
+        }
+        .panel-1 .log-output .pass-message {
+            font-weight: bold;
+            opacity: 1;
+            background-color: rgba(0, 196, 154, 0.1);
+            padding: 5px;
+            border-left: 3px solid var(--success-color);
+        }
+
+        /* Panel 2: AI Dashboard */
+        .panel-2 h3 { color: #fff; font-size: 1.2em; }
+        .gauge-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+        }
+        .gauge {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--danger-color) 95%, var(--mid-bg) 95%);
+            animation: pulse 1s infinite;
+        }
+        .gauge-center {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 150px;
+            height: 150px;
+            background-color: var(--dark-bg);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .gauge-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3em;
+            font-weight: 700;
+            color: var(--danger-color);
+        }
+        .gauge-label {
+            font-size: 1.1em;
+            color: var(--danger-color);
+            font-weight: 700;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 90, 95, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 90, 95, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 90, 95, 0); }
+        }
+
+        /* Panel 3: Action Window */
+        .action-box {
+            background-color: var(--mid-bg);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 25px;
+            width: 90%;
+            text-align: left;
+            font-family: monospace;
+            font-size: 1em;
+            box-shadow: 0 0 20px rgba(0, 168, 255, 0.2);
+        }
+        .action-box p {
+            margin: 8px 0;
+        }
+        .action-box strong {
+            color: var(--primary-color);
+        }
+        .action-box .time-value {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        /* --- Explanation Section --- */
+        .explanation {
+            padding: 100px 0;
+        }
+        .explanation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+        .explanation-item h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5em;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .explanation-item .impact {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .explanation-item .impact.failure { color: var(--success-color); }
+        .explanation-item .impact.detection { color: var(--danger-color); }
+        .explanation-item .impact.action { color: var(--primary-color); }
+        .explanation-item p {
+            color: var(--dark-text);
+        }
+
+        /* --- CTA Section --- */
+        .cta-section {
+            background-color: var(--mid-bg);
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid #2a384a;
+            border-bottom: 1px solid #2a384a;
+        }
+        .cta-section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5em;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .cta-section p {
+            color: var(--dark-text);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            padding: 40px 0;
+            text-align: center;
+        }
+        .main-footer p {
+            color: var(--dark-text);
+            font-size: 0.9em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">Aegis<span>AI</span></a>
+            <nav class="main-nav">
+                <a href="#demo">The Demo</a>
+                <a href="#explanation">How It Works</a>
+                <a href="#">Pricing</a>
+                <a href="#" class="btn btn-primary">Request a Private Demo</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>From Breach to Block in <span class="highlight">0.18 Seconds</span></h1>
+                <p class="subtitle">
+                    Traditional security systems send alerts. Our AI takes action. Witness the live, side-by-side comparison and see the future of autonomous threat mitigation unfold.
+                </p>
+
+                <div class="live-demo-container" id="demo">
+                    <div class="panels-wrapper">
+                        
+                        <div class="panel panel-1">
+                            <h3>Traditional SIEM Log</h3>
+                            <div class="log-output">
+                                <span>[INFO] Packet received from 198.51.100.42</span>
+                                <span>[INFO] Source Port: 49152, Dest Port: 443</span>
+                                <span>[INFO] Rule check initiated...</span>
+                                <span>[INFO] No matching block rule found.</span>
+                                <span class="pass-message">[PASS] Action: Allowed Packet.</span>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-2">
+                            <h3>AegisAI Predictive Threat Meter</h3>
+                            <div class="gauge-container">
+                                <div class="gauge"></div>
+                                <div class="gauge-center">
+                                    <div class="gauge-value">95%</div>
+                                    <div class="gauge-label">CRITICAL</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-3">
+                            <h3>Autonomous Action</h3>
+                            <div class="action-box">
+                                <p><strong>Status:</strong> Threat Neutralized</p>
+                                <p><strong>Action:</strong> Auto-Block Deployed</p>
+                                <p><strong>Duration:</strong> 30 minutes</p>
+                                <p><strong>Mitigation Time:</strong> <span class="time-value">0.18s</span></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="explanation" id="explanation">
+            <div class="container">
+                <div class="explanation-grid">
+                    
+                    <div class="explanation-item">
+                        <h2>1. The Failure</h2>
+                        <div class="impact failure">Attack 'Passed'</div>
+                        <p>
+                            The traditional log shows the malicious packet passing through. Because it doesn't match a predefined rule, legacy systems are blind to the threat, creating a critical security gap.
+                        </p>
+                    </div>
+
+                    <div class="explanation-item">
+                        <h2>2. The Suspicion</h2>
+                        <div class="impact detection">Risk Instantly Identified</div>
+                        <p>
+                            Simultaneously, our AI analyzes the packet's behavior, not just its signature. The "Suspicion Meter" spikes to critical, providing an immediate, intuitive indicator of a high-probability threat.
+                        </p>
+                    </div>
+
+                    <div class="explanation-item">
+                        <h2>3. The Fix</h2>
+                        <div class="impact action">Threat Autonomously Blocked</div>
+                        <p>
+                            Before a human could even read an alert, the system takes action. This demonstrates the shift from slow, manual "alerting" to instantaneous, autonomous "fixing."
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>Stop Chasing Alerts. Start Neutralizing Threats.</h2>
+                <p>
+                    Your security team is overwhelmed. Our AI works 24/7 to not just find threats, but to stop them cold. See a personalized demo tailored to your infrastructure.
+                </p>
+                <a href="#" class="btn btn-primary" style="font-size: 1.2em; padding: 15px 35px;">Schedule Your Personalized Demo</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 AegisAI Corporation. All Rights Reserved.</p>
+            <p>Privacy Policy | Terms of Service | Contact Us</p>
+        </div>
+    </footer>
+
+</body>
+</html>
